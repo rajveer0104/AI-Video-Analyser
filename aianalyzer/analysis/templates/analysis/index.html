@@ -1,0 +1,130 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Analysis Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'analysis/css/style.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div class="logo">
+            🤖 AI Video Analyzer
+        </div>
+
+        <div class="status">
+            Uploaded Successfully ✓
+        </div>
+
+    </header>
+
+
+    <section class="video-info">
+
+        <h1>{{ transcript.title }}</h1>
+
+        <p>
+            Choose how you would like to interact with this transcript.
+        </p>
+
+    </section>
+
+
+    <section class="cards">
+
+        <a href="#" class="card transcript-card">
+
+            <div class="icon">📄</div>
+
+            <h2>Transcript</h2>
+
+            <p>Read the complete transcript.</p>
+
+        </a>
+
+
+        <a href="{% url 'rag:chat' transcript.id %}" class="card">
+
+            <div class="icon">💬</div>
+
+            <h2>Chat</h2>
+
+            <p>Ask questions about the video.</p>
+
+        </a>
+
+
+        <a href="{% url 'summary:summarize' transcript.id %}" class="card">
+
+            <div class="icon">📝</div>
+
+            <h2>Summary</h2>
+
+            <p>Generate an AI summary.</p>
+
+        </a>
+
+    </section>
+
+
+    <section class="preview">
+
+        <div class="preview-header">
+
+            <h2>Transcript Preview</h2>
+
+        </div>
+
+        <div class="preview-box">
+
+            {{ transcript.transcript|truncatewords:150 }}
+
+        </div>
+
+    </section>
+
+
+    <section class="future">
+
+        <h2>Coming Soon</h2>
+
+        <div class="future-grid">
+
+            <div class="future-card">📌 Key Points</div>
+
+            <div class="future-card">🧠 Flashcards</div>
+
+            <div class="future-card">❓ Quiz</div>
+
+            <div class="future-card">😊 Sentiment</div>
+
+            <div class="future-card">🗺 Mind Map</div>
+
+            <div class="future-card">🕒 Timeline</div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script src="{% static 'analysis/js/script.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chat with Video</title>
+
+    <link rel="stylesheet" href="{% static 'rag/css/style.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div class="logo">
+            🤖 AI Video Analyzer
+        </div>
+
+        <a href="{% url 'analysis:analysis' transcript.id %}" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </header>
+
+
+    <section class="video-info">
+
+        <h1>{{ transcript.title }}</h1>
+
+        <p>Ask anything about this video's transcript.</p>
+
+    </section>
+
+
+    <section class="chat-window">
+
+        {% if question %}
+
+        <div class="message user">
+
+            <div class="label">You</div>
+
+            <div class="bubble">
+                {{ question }}
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        {% if answer %}
+
+        <div class="message ai">
+
+            <div class="label">AI</div>
+
+            <div class="bubble">
+                {{ answer|linebreaks }}
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        {% if not answer %}
+
+        <div class="empty-state">
+
+            💬
+
+            <h2>Start chatting</h2>
+
+            <p>
+                Ask questions about the uploaded video and the AI will answer using its transcript.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <form method="POST" class="chat-form">
+
+        {% csrf_token %}
+
+        <textarea
+            name="question"
+            placeholder="Ask a question about the video..."
+            required></textarea>
+
+        <button type="submit" id="sendBtn">
+
+            Send
+
+        </button>
+
+    </form>
+
+</div>
+
+<script src="{% static 'rag/js/script.js' %}"></script>
+
+</body>
+
+</html>

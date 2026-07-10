@@ -1,0 +1,201 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+}
+
+.container{
+
+    width:90%;
+    max-width:1100px;
+    margin:auto;
+    padding:35px 0;
+
+}
+
+header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+
+}
+
+.logo{
+
+    font-size:28px;
+    font-weight:700;
+    color:#60a5fa;
+
+}
+
+.back-btn{
+
+    text-decoration:none;
+    color:white;
+    background:#1e293b;
+    padding:12px 20px;
+    border-radius:10px;
+    transition:.3s;
+
+}
+
+.back-btn:hover{
+
+    background:#334155;
+
+}
+
+.video-info{
+
+    margin-bottom:30px;
+
+}
+
+.video-info h1{
+
+    font-size:34px;
+    margin-bottom:10px;
+
+}
+
+.video-info p{
+
+    color:#94a3b8;
+
+}
+
+.chat-window{
+
+    background:#1e293b;
+    border-radius:18px;
+    padding:30px;
+    min-height:420px;
+    margin-bottom:30px;
+    overflow-y:auto;
+
+}
+
+.message{
+
+    margin-bottom:25px;
+
+}
+
+.label{
+
+    font-size:14px;
+    margin-bottom:8px;
+    color:#94a3b8;
+
+}
+
+.bubble{
+
+    padding:18px;
+    border-radius:15px;
+    line-height:1.8;
+
+}
+
+.user .bubble{
+
+    background:#2563eb;
+
+}
+
+.ai .bubble{
+
+    background:#334155;
+
+}
+
+.chat-form{
+
+    display:flex;
+    gap:15px;
+
+}
+
+textarea{
+
+    flex:1;
+    resize:none;
+    height:70px;
+    padding:18px;
+    border:none;
+    border-radius:15px;
+    background:#1e293b;
+    color:white;
+    font-size:15px;
+
+}
+
+textarea:focus{
+
+    outline:2px solid #3b82f6;
+
+}
+
+button{
+
+    width:170px;
+    border:none;
+    border-radius:15px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#2563eb;
+
+}
+
+.empty-state{
+
+    height:340px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    color:#94a3b8;
+
+}
+
+.empty-state h2{
+
+    margin:15px 0;
+
+}
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#475569;
+    border-radius:20px;
+
+}

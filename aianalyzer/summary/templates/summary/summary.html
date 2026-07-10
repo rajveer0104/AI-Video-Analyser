@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Summary</title>
+
+    <link rel="stylesheet" href="{% static 'summary/css/style.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div class="logo">
+            🤖 AI Video Analyzer
+        </div>
+
+        <a href="{% url 'analysis:analysis' transcript.id %}" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </header>
+
+    <section class="video-info">
+
+        <h1>{{ transcript.title }}</h1>
+
+        <p>AI-generated summary of the uploaded video.</p>
+
+    </section>
+
+    <section class="summary-card">
+
+        <div class="summary-header">
+
+            <h2>📝 Video Summary</h2>
+
+            <button id="copyBtn">
+                Copy
+            </button>
+
+        </div>
+
+        <div class="summary-content" id="summaryText">
+
+            {{ summary|linebreaks }}
+
+        </div>
+
+    </section>
+
+</div>
+
+<script src="{% static 'summary/js/script.js' %}"></script>
+
+</body>
+
+</html>
