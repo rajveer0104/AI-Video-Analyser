@@ -5,10 +5,13 @@ from moviepy import VideoFileClip
 from .models import Transcript
 import whisper
 from rag.embedding import *
+from django.contrib.auth.decorators import login_required
 model = whisper.load_model("base")
+
 
 def landing(request):
     return render(request, "inp/land.html")
+@login_required
 def home(request):
 
     result = None

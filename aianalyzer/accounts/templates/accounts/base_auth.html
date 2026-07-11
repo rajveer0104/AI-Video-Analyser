@@ -1,0 +1,135 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}AI Video Analyzer{% endblock %}
+    </title>
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="{% static 'accounts/css/auth.css' %}">
+
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <!-- LEFT SIDE -->
+
+    <div class="left-panel">
+
+        <div class="logo">
+
+            AI <span>Video Analyzer</span>
+
+        </div>
+
+        <p class="tagline">
+
+            Transform any YouTube video, lecture or podcast into
+            searchable knowledge using the power of AI.
+
+        </p>
+
+        <div class="feature">
+
+            <i class="fa-brands fa-youtube"></i>
+
+            <span>Upload YouTube Videos</span>
+
+        </div>
+
+        <div class="feature">
+
+            <i class="fa-solid fa-microphone"></i>
+
+            <span>Whisper Speech Recognition</span>
+
+        </div>
+
+        <div class="feature">
+
+            <i class="fa-solid fa-brain"></i>
+
+            <span>BAAI BGE Semantic Embeddings</span>
+
+        </div>
+
+        <div class="feature">
+
+            <i class="fa-solid fa-database"></i>
+
+            <span>Chroma Vector Database</span>
+
+        </div>
+
+        <div class="feature">
+
+            <i class="fa-solid fa-robot"></i>
+
+            <span>Google Gemini AI</span>
+
+        </div>
+
+        <div class="feature">
+
+            <i class="fa-solid fa-comments"></i>
+
+            <span>Ask Questions using RAG</span>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+
+    <div class="right-panel">
+
+        <div class="auth-card">
+
+            {% block content %}
+
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- JavaScript -->
+
+<script src="{% static 'accounts/js/auth.js' %}"></script>
+
+</body>
+
+</html>
