@@ -28,7 +28,7 @@ An AI-powered Django web application that transforms YouTube videos into structu
 
 * OpenAI Whisper
 * Google Gemini 2.5 Flash
-* Google Text Embedding Model (`text-embedding-001`)
+* Google Text Embedding Model (`BAAI BGE-Small-EN-v1.5 (Sentence Transformers)`)
 * LangChain
 * Chroma Vector Database
 
