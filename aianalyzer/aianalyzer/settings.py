@@ -26,6 +26,8 @@ SECRET_KEY = 'django-insecure-6s$fwkupssw1)@0r_)og2qzv@ctv8b)(!-78fuof24z*qz(dbj
 DEBUG = False
 
 ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
     ".onrender.com",
 ]
 
@@ -49,13 +51,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    
 ]
 
 ROOT_URLCONF = 'aianalyzer.urls'
