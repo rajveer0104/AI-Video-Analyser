@@ -4,8 +4,13 @@ from pytubefix import YouTube
 from moviepy import VideoFileClip
 from .models import Transcript
 import whisper
-from rag.embedding import *
+from rag.embedding import create_embeddings
 from django.contrib.auth.decorators import login_required
+import os
+
+os.makedirs("downloads", exist_ok=True)
+
+
 model = whisper.load_model("base")
 
 
@@ -49,6 +54,15 @@ def home(request):
                     transcript=result
                 )
                 create_embeddings(transcript.id)
+                try:
+                    if os.path.exists(audio_path):
+                        os.remove(audio_path)
+
+                    if youtube_url and os.path.exists(video_path):
+                        os.remove(video_path)
+
+                except Exception:
+                    pass
                 return redirect(
                     "analysis:analysis",
                     transcript_id=transcript.id
@@ -70,6 +84,15 @@ def home(request):
                         transcript=result
                     )
                     create_embeddings(transcript.id)
+                    try:
+                        if os.path.exists(audio_path):
+                            os.remove(audio_path)
+
+                        if os.path.exists(video_path):
+                            os.remove(video_path)
+
+                    except Exception:
+                        pass
                     return redirect(
                         "analysis:analysis",
                         transcript_id=transcript.id
@@ -90,6 +113,12 @@ def home(request):
                         transcript=result
                     )
                     create_embeddings(transcript.id)
+                    try:
+                        if os.path.exists(audio_path):
+                            os.remove(audio_path)
+
+                    except Exception:
+                        pass
                     return redirect(
                         "analysis:analysis",
                         transcript_id=transcript.id
