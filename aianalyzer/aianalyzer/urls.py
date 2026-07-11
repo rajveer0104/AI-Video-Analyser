@@ -22,7 +22,7 @@ urlpatterns = [
 
     path('accounts/', include('accounts.urls')),
 
-    path('inp/', include('inp.urls')),
+    path('', include('inp.urls')),
 
     path('rag/', include('rag.urls')),
 
