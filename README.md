@@ -255,7 +255,3 @@ This project is licensed under the MIT License.
 
 If you found this project helpful, consider giving it a ⭐ on GitHub!
 
-
-**Rajveer Sanyal**
-
-If you found this project helpful, consider giving it a ⭐ on GitHub!
