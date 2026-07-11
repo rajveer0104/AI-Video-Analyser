@@ -210,18 +210,6 @@ The project uses Retrieval-Augmented Generation (RAG) to answer questions accura
 
 ---
 
-# 📸 Screenshots
-
-Add screenshots of:
-
-* Home Page
-* Transcript Page
-* Summary Page
-* AI Chat (RAG)
-* Admin Panel
-
----
-
 # 🔮 Future Improvements
 
 * Video upload support
