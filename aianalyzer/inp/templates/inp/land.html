@@ -1,0 +1,524 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Video Analyzer</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'inp/css/land.css' %}">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <i class="fa-solid fa-brain"></i>
+            AI Video Analyzer
+        </div>
+
+        <ul class="nav-links">
+
+            <li><a href="#home">Home</a></li>
+
+            <li><a href="#features">Features</a></li>
+
+            <li><a href="#workflow">Workflow</a></li>
+
+            <li><a href="#tech">Technology</a></li>
+
+            <li><a href="#contact">Contact</a></li>
+
+        </ul>
+
+        <div class="nav-buttons">
+
+            <a href="{% url 'accounts:login' %}" class="login-btn">
+                Login
+            </a>
+
+            <a href="{% url 'accounts:register' %}" class="start-btn">
+                Register
+            </a>
+
+        </div>
+
+        <div class="menu-btn">
+
+            <i class="fas fa-bars"></i>
+
+        </div>
+
+    </nav>
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-left">
+
+            <span class="badge">
+
+                AI Powered Platform
+
+            </span>
+
+            <h1>
+
+                Understand Any
+                <span>YouTube Video</span>
+                in Seconds
+
+            </h1>
+
+            <p>
+
+                Upload a YouTube link and let AI transcribe, summarize,
+                analyze and answer questions from any video using
+                Retrieval-Augmented Generation (RAG).
+
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="{% url 'home' %}" class="primary-btn">
+
+                    Get Started
+
+                </a>
+
+                <a href="#features" class="secondary-btn">
+
+                    Learn More
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-right">
+
+            <div class="hero-card">
+
+                <i class="fa-brands fa-youtube youtube"></i>
+
+                <div class="arrow">
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </div>
+
+                <i class="fa-solid fa-wave-square whisper"></i>
+
+                <div class="arrow">
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </div>
+
+                <i class="fa-solid fa-file-lines summary"></i>
+
+                <div class="arrow">
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </div>
+
+                <i class="fa-solid fa-comments rag"></i>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="features" id="features">
+
+        <h2>
+
+            Everything You Need
+
+        </h2>
+
+        <p class="section-text">
+
+            A complete AI pipeline for understanding video content.
+
+        </p>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-video"></i>
+
+                <h3>
+
+                    Video Processing
+
+                </h3>
+
+                <p>
+
+                    Upload YouTube videos and automatically extract audio.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-microphone-lines"></i>
+
+                <h3>
+
+                    Whisper Transcription
+
+                </h3>
+
+                <p>
+
+                    Accurate speech-to-text transcription powered by Whisper.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <h3>
+
+                    AI Summary
+
+                </h3>
+
+                <p>
+
+                    Generate concise and structured summaries using Gemini.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-comments"></i>
+
+                <h3>
+
+                    AI Chat
+
+                </h3>
+
+                <p>
+
+                    Ask questions and receive context-aware answers using RAG.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-database"></i>
+
+                <h3>
+
+                    Chroma DB
+
+                </h3>
+
+                <p>
+
+                    Efficient semantic search using vector embeddings.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-brain"></i>
+
+                <h3>
+
+                    Gemini AI
+
+                </h3>
+
+                <p>
+
+                    Intelligent responses generated with Google's Gemini.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= WORKFLOW ================= -->
+
+    <section class="workflow" id="workflow">
+
+        <h2>
+
+            How It Works
+
+        </h2>
+
+        <div class="timeline">
+
+            <div class="step">
+
+                <div class="circle">
+
+                    1
+
+                </div>
+
+                <h3>
+
+                    Paste Video Link
+
+                </h3>
+
+                <p>
+
+                    Enter a YouTube URL.
+
+                </p>
+
+            </div>
+
+            <div class="step">
+
+                <div class="circle">
+
+                    2
+
+                </div>
+
+                <h3>
+
+                    AI Processing
+
+                </h3>
+
+                <p>
+
+                    Audio extraction and transcription.
+
+                </p>
+
+            </div>
+
+            <div class="step">
+
+                <div class="circle">
+
+                    3
+
+                </div>
+
+                <h3>
+
+                    Generate Summary
+
+                </h3>
+
+                <p>
+
+                    Gemini creates an organized summary.
+
+                </p>
+
+            </div>
+
+            <div class="step">
+
+                <div class="circle">
+
+                    4
+
+                </div>
+
+                <h3>
+
+                    Chat with Video
+
+                </h3>
+
+                <p>
+
+                    Ask anything about the video.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= TECHNOLOGY ================= -->
+
+    <section class="tech" id="tech">
+
+        <h2>
+
+            Powered By
+
+        </h2>
+
+        <div class="tech-grid">
+
+            <div class="tech-box">
+
+                Django
+
+            </div>
+
+            <div class="tech-box">
+
+                Python
+
+            </div>
+
+            <div class="tech-box">
+
+                Whisper
+
+            </div>
+
+            <div class="tech-box">
+
+                Gemini
+
+            </div>
+
+            <div class="tech-box">
+
+                LangChain
+
+            </div>
+
+            <div class="tech-box">
+
+                Chroma
+
+            </div>
+
+            <div class="tech-box">
+
+                SQLite
+
+            </div>
+
+            <div class="tech-box">
+
+                MoviePy
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta">
+
+        <h2>
+
+            Ready to Explore Videos with AI?
+
+        </h2>
+
+        <p>
+
+            Upload your first YouTube video and experience AI-powered analysis.
+
+        </p>
+
+        <a href="{% url 'home' %}" class="cta-btn">
+
+            Start Analyzing
+
+        </a>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer id="contact">
+
+        <h3>
+
+            AI Video Analyzer
+
+        </h3>
+
+        <p>
+
+            Built with Django, Whisper, Gemini and LangChain.
+
+        </p>
+
+        <div class="social">
+
+            <a href="#">
+
+                <i class="fab fa-github"></i>
+
+            </a>
+
+            <a href="#">
+
+                <i class="fab fa-linkedin"></i>
+
+            </a>
+
+            <a href="#">
+
+                <i class="fab fa-twitter"></i>
+
+            </a>
+
+        </div>
+
+        <p class="copyright">
+
+            © 2026 AI Video Analyzer. All Rights Reserved.
+
+        </p>
+
+    </footer>
+
+    <!-- JS -->
+
+    <script src="{% static 'inp/js/land.js' %}"></script>
+
+</body>
+
+</html>

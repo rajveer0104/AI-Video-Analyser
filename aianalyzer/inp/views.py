@@ -6,6 +6,9 @@ from .models import Transcript
 import whisper
 from rag.embedding import *
 model = whisper.load_model("base")
+
+def landing(request):
+    return render(request, "inp/land.html")
 def home(request):
 
     result = None
@@ -101,6 +104,6 @@ def home(request):
 
     return render(
         request,
-        'home.html',
+        'inp/home.html',
         context
     )
