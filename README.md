@@ -212,8 +212,6 @@ The project uses Retrieval-Augmented Generation (RAG) to answer questions accura
 
 # 🔮 Future Improvements
 
-* Video upload support
-* Audio upload support
 * PDF export of summaries
 * Multi-language transcription
 * Conversation history
