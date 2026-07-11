@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,81 +7,311 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Chat with Video</title>
+    <title>AI Video Analyzer</title>
 
     <link rel="stylesheet" href="{% static 'rag/css/style.css' %}">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
 <body>
 
+<div class="background"></div>
+
 <div class="container">
 
-    <header>
+    <!-- ================= HEADER ================= -->
 
-        <div class="logo">
-            🤖 AI Video Analyzer
+    <header class="header">
+
+        <div class="header-left">
+
+            <div class="logo">
+
+                <i class="fa-solid fa-video"></i>
+
+            </div>
+
+            <div>
+
+                <h1>AI Video Analyzer</h1>
+
+                <p>Chat with your video using AI</p>
+
+            </div>
+
         </div>
 
-        <a href="{% url 'analysis:analysis' transcript.id %}" class="back-btn">
-            ← Dashboard
-        </a>
+        <div class="header-right">
+
+            <a href="{% url 'analysis:analysis' transcript.id %}" class="dashboard-btn">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                Dashboard
+
+            </a>
+
+        </div>
 
     </header>
 
 
-    <section class="video-info">
 
-        <h1>{{ transcript.title }}</h1>
+    <!-- ================= VIDEO CARD ================= -->
 
-        <p>Ask anything about this video's transcript.</p>
+    <section class="video-card">
+
+        <div class="video-details">
+
+            <span class="video-tag">
+
+                <i class="fa-solid fa-film"></i>
+
+                Current Video
+
+            </span>
+
+            <h2>
+
+                {{ transcript.title }}
+
+            </h2>
+
+            <p>
+
+                Ask questions about this video's transcript.
+                The AI will answer only from the transcript.
+
+            </p>
+
+        </div>
+
+        <div class="video-actions">
+
+            {% if youtube_url %}
+
+            <a href="{{ youtube_url }}"
+               target="_blank"
+               class="video-btn youtube-btn">
+
+                <div class="icon">
+
+                    <i class="fa-brands fa-youtube"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>Open YouTube</strong>
+
+                    <small>Watch original video</small>
+
+                </div>
+
+            </a>
+
+            {% endif %}
+
+            {% if video_path %}
+
+            <a href="/media/{{ video_path }}"
+               target="_blank"
+               class="video-btn upload-btn">
+
+                <div class="icon">
+
+                    <i class="fa-solid fa-play"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>Open Uploaded Video</strong>
+
+                    <small>Play uploaded MP4</small>
+
+                </div>
+
+            </a>
+
+            {% endif %}
+
+        </div>
 
     </section>
 
 
-    <section class="chat-window">
+
+    <!-- ================= CHAT WINDOW ================= -->
+
+    <section class="chat-container">
+
+        <div class="chat-header">
+
+            <i class="fa-solid fa-comments"></i>
+
+            <h2>Conversation</h2>
+
+        </div>
+
 
         {% if question %}
 
-        <div class="message user">
+        <div class="message user-message">
 
-            <div class="label">You</div>
+            <div class="avatar user-avatar">
 
-            <div class="bubble">
-                {{ question }}
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+            <div class="message-content">
+
+                <div class="message-title">
+
+                    You
+
+                </div>
+
+                <div class="bubble user-bubble">
+
+                    {{ question }}
+
+                </div>
+
             </div>
 
         </div>
 
         {% endif %}
+
 
 
         {% if answer %}
 
-        <div class="message ai">
+        <div class="message ai-message">
 
-            <div class="label">AI</div>
+            <div class="avatar ai-avatar">
 
-            <div class="bubble">
-                {{ answer|linebreaks }}
+                <i class="fa-solid fa-robot"></i>
+
+            </div>
+
+            <div class="message-content">
+
+                <div class="message-title">
+
+                    AI Assistant
+
+                </div>
+
+                <div class="bubble ai-bubble" id="answerText">
+
+                    {{ answer|linebreaks }}
+
+                </div>
+
+                <div class="bubble-actions">
+
+                    <button
+                        type="button"
+                        class="copy-btn"
+                        id="copyAnswer">
+
+                        <i class="fa-regular fa-copy"></i>
+
+                        Copy
+
+                    </button>
+
+                </div>
+
+
+                {% if timestamps %}
+
+                <div class="timestamp-section">
+
+                    <h3>
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        Relevant Video Segments
+
+                    </h3>
+
+                    <div class="timestamp-grid">
+
+                        {% for t in timestamps %}
+
+                            {% if youtube_url %}
+
+                            <a href="{{ youtube_url }}?t={{ t.start_seconds|floatformat:0 }}s"
+                               target="_blank"
+                               class="timestamp-pill">
+
+                                <i class="fa-solid fa-location-dot"></i>
+
+                                {{ t.start }} - {{ t.end }}
+
+                            </a>
+
+                            {% else %}
+
+                            <a href="/media/{{ video_path }}"
+                               target="_blank"
+                               class="timestamp-pill">
+
+                                <i class="fa-solid fa-location-dot"></i>
+
+                                {{ t.start }} - {{ t.end }}
+
+                            </a>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
             </div>
 
         </div>
 
         {% endif %}
+
+
 
         {% if not answer %}
 
         <div class="empty-state">
 
-            💬
+            <div class="empty-icon">
 
-            <h2>Start chatting</h2>
+                <i class="fa-solid fa-robot"></i>
+
+            </div>
+
+            <h2>
+
+                Start chatting with your video
+
+            </h2>
 
             <p>
-                Ask questions about the uploaded video and the AI will answer using its transcript.
+
+                Ask anything about the uploaded video.
+                AI will search the transcript and answer from the most relevant parts.
+
             </p>
 
         </div>
@@ -92,24 +321,85 @@
     </section>
 
 
-    <form method="POST" class="chat-form">
 
-        {% csrf_token %}
+    <!-- ================= CHAT INPUT ================= -->
 
-        <textarea
-            name="question"
-            placeholder="Ask a question about the video..."
-            required></textarea>
+    <section class="input-section">
 
-        <button type="submit" id="sendBtn">
+        <form method="POST" id="chatForm">
 
-            Send
+            {% csrf_token %}
 
-        </button>
+            <textarea
+                name="question"
+                id="questionInput"
+                placeholder="Ask anything about this video..."
+                required></textarea>
 
-    </form>
+            <div class="bottom-bar">
+
+                <div class="suggestions">
+
+                    <button type="button" class="suggestion-btn">
+
+                        Summary
+
+                    </button>
+
+                    <button type="button" class="suggestion-btn">
+
+                        Key Takeaways
+
+                    </button>
+
+                    <button type="button" class="suggestion-btn">
+
+                        Explain Simply
+
+                    </button>
+
+                    <button type="button" class="suggestion-btn">
+
+                        Important Topics
+
+                    </button>
+
+                </div>
+
+                <button
+                    class="send-btn"
+                    id="sendBtn"
+                    type="submit">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    Ask AI
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
 
 </div>
+
+
+<!-- Loading Overlay -->
+
+<div id="loadingOverlay">
+
+    <div class="loader">
+
+        <div class="spinner"></div>
+
+        <p>Analyzing transcript...</p>
+
+    </div>
+
+</div>
+
 
 <script src="{% static 'rag/js/script.js' %}"></script>
 

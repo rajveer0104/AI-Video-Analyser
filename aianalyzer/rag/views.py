@@ -5,7 +5,6 @@ from .embedding import rag
 
 import os
 from dotenv import load_dotenv
-
 import google.generativeai as genai
 
 load_dotenv()
@@ -17,6 +16,12 @@ genai.configure(
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 
+def format_time(seconds):
+    minutes = int(seconds // 60)
+    seconds = int(seconds % 60)
+    return f"{minutes:02}:{seconds:02}"
+
+
 def chat(request, transcript_id):
 
     transcript = get_object_or_404(
@@ -26,6 +31,7 @@ def chat(request, transcript_id):
 
     answer = None
     question = None
+    timestamps = []
 
     if request.method == "POST":
 
@@ -33,19 +39,51 @@ def chat(request, transcript_id):
 
         if question:
 
-            context = rag(
+            docs = rag(
                 question=question,
                 transcript_id=transcript_id
             )
+            print("=" * 60)
+            print("Retrieved Documents")
 
-            prompt = f"""
-You are a helpful AI assistant.
+            for doc in docs:
+                print(doc.metadata)
 
-Answer ONLY using the context provided below.
-Make it precise unless asked for detail.
-If asked for details then you can add some contents but strictly related to the context. 
-If the answer is not present in the context, reply with:
-'I couldn't find that information in this video's transcript.'
+            if not docs:
+                answer = "I couldn't find that information in this video's transcript."
+
+            else:
+
+                context = ""
+
+                for doc in docs:
+
+                    start = doc.metadata.get("start", 0)
+                    end = doc.metadata.get("end", 0)
+
+                    timestamps.append({
+                        "start": format_time(start),
+                        "end": format_time(end),
+                        "start_seconds": start,
+                        "end_seconds": end
+                    })
+
+                    context += (
+                        f"[{format_time(start)} - {format_time(end)}]\n"
+                        f"{doc.page_content}\n\n"
+                    )
+
+                prompt = f"""
+You are an AI Video Assistant.
+
+Use ONLY the context provided below to answer the user's question.
+
+Rules:
+- Answer only from the provided context.
+- Do not invent or assume information.
+- If the context is insufficient, reply exactly:
+"I couldn't find that information in this video's transcript."
+- Keep answers concise unless the user asks for a detailed explanation.
 
 Context:
 {context}
@@ -56,9 +94,12 @@ Question:
 Answer:
 """
 
-            response = model.generate_content(prompt)
+                try:
+                    response = model.generate_content(prompt)
+                    answer = response.text
 
-            answer = response.text
+                except Exception as e:
+                    answer = f"Gemini Error: {str(e)}"
 
     return render(
         request,
@@ -67,5 +108,8 @@ Answer:
             "transcript": transcript,
             "question": question,
             "answer": answer,
+            "timestamps": timestamps,
+            "video_path": transcript.video_path,
+            "youtube_url": transcript.youtube_url,
         }
     )

@@ -1,17 +1,12 @@
 from inp.models import Transcript
 
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_chroma import Chroma
-
 
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 
-# Gemini Embedding Model
 from langchain_huggingface import HuggingFaceEmbeddings
 
 embedding_model = HuggingFaceEmbeddings(
@@ -22,43 +17,66 @@ embedding_model = HuggingFaceEmbeddings(
 
 def create_embeddings(transcript_id):
     transcript = Transcript.objects.get(id=transcript_id)
-    text = transcript.transcript
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200,
-        separators=[
-            "\n\n",
-            "\n",
-            ". ",
-            "? ",
-            "! ",
-            " ",
-            ""
-        ]
-    )
 
-    chunks = splitter.split_text(text)
+    segments = transcript.segments
 
-    # Metadata for each chunk
+    chunks = []
     metadatas = []
 
-    for i in range(len(chunks)):
+    current_text = ""
+    current_start = None
+    current_end = None
+
+    chunk_size = 1000
+
+    for segment in segments:
+
+        if current_start is None:
+            current_start = segment["start"]
+
+        current_text += segment["text"] + " "
+
+        current_end = segment["end"]
+
+        if len(current_text) >= chunk_size:
+
+            chunks.append(current_text.strip())
+
+            metadatas.append({
+                "video_id": transcript.id,
+                "title": transcript.title,
+                "chunk": len(chunks),
+                "start": current_start,
+                "end": current_end
+            })
+
+            current_text = ""
+            current_start = None
+            current_end = None
+
+    # Save remaining text
+    if current_text:
+
+        chunks.append(current_text.strip())
+
         metadatas.append({
             "video_id": transcript.id,
             "title": transcript.title,
-            "chunk": i + 1
+            "chunk": len(chunks),
+            "start": current_start,
+            "end": current_end
         })
 
-    # Store in ChromaDB
     vectorstore = Chroma.from_texts(
-    texts=chunks,
-    embedding=embedding_model,
-    metadatas=metadatas,
-    collection_name=f"video_{transcript.id}",
-    persist_directory="chroma_db"
-)
+        texts=chunks,
+        embedding=embedding_model,
+        metadatas=metadatas,
+        collection_name=f"video_{transcript.id}",
+        persist_directory="chroma_db"
+    )
 
     return vectorstore
+
 
 def rag(question, transcript_id):
 
@@ -73,9 +91,4 @@ def rag(question, transcript_id):
         k=4
     )
 
-    context = "\n\n".join(
-        doc.page_content
-        for doc in docs
-    )
-
-    return context
+    return docs
