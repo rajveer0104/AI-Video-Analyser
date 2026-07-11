@@ -10,6 +10,8 @@ An AI-powered Django web application that transforms YouTube videos into structu
 * 🎙️ Automatic speech-to-text transcription with Whisper
 * 📝 AI-generated structured summaries using Gemini
 * 💬 Ask questions about the video using RAG
+* ⏱️ Timestamp-aware answers with relevant video segments
+* ▶️ Jump directly to the relevant moment in the YouTube video
 * 🔍 Semantic search with Chroma Vector Database
 * 🧠 Google Gemini for intelligent responses
 * 🔐 User Authentication (Register/Login/Logout)
@@ -97,6 +99,12 @@ Store Transcript
                      │
                      ▼
          Gemini Generates Answer
+                     │
+                     ▼
+ Retrieve Relevant Timestamp
+                     │
+                     ▼
+Open YouTube at that Timestamp
 ```
 
 ---
@@ -190,8 +198,9 @@ The project uses Retrieval-Augmented Generation (RAG) to answer questions accura
 3. Embeddings are stored in Chroma DB.
 4. User asks a question.
 5. Relevant chunks are retrieved using semantic similarity search.
-6. Retrieved context is sent to Gemini.
-7. Gemini generates an answer grounded in the transcript.
+6. Gemini generates an answer grounded in the retrieved transcript context.
+7. The system identifies the most relevant timestamp from the retrieved transcript segments.
+8. Users can jump directly to the corresponding moment in the YouTube video.
 
 ---
 
@@ -215,7 +224,6 @@ The project uses Retrieval-Augmented Generation (RAG) to answer questions accura
 * PDF export of summaries
 * Multi-language transcription
 * Conversation history
-* Timestamp-based citations
 * Speaker identification
 * Keyword extraction
 * Quiz generation from videos
@@ -242,6 +250,11 @@ This project is licensed under the MIT License.
 ---
 
 ## 👨‍💻 Author
+
+**Rajveer Sanyal**
+
+If you found this project helpful, consider giving it a ⭐ on GitHub!
+
 
 **Rajveer Sanyal**
 
