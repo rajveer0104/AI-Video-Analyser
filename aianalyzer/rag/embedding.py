@@ -1,21 +1,24 @@
 from inp.models import Transcript
-
 from langchain_chroma import Chroma
-
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
 from langchain_huggingface import HuggingFaceEmbeddings
 
-embedding_model = HuggingFaceEmbeddings(
-    model_name="BAAI/bge-small-en-v1.5",
-    encode_kwargs={"normalize_embeddings": True}
-)
+embedding_model = None
+
+
+def get_embedding_model():
+    global embedding_model
+
+    if embedding_model is None:
+        embedding_model = HuggingFaceEmbeddings(
+            model_name="BAAI/bge-small-en-v1.5",
+            encode_kwargs={"normalize_embeddings": True}
+        )
+
+    return embedding_model
 
 
 def create_embeddings(transcript_id):
+
     transcript = Transcript.objects.get(id=transcript_id)
 
     segments = transcript.segments
@@ -54,7 +57,6 @@ def create_embeddings(transcript_id):
             current_start = None
             current_end = None
 
-    # Save remaining text
     if current_text:
 
         chunks.append(current_text.strip())
@@ -69,7 +71,7 @@ def create_embeddings(transcript_id):
 
     vectorstore = Chroma.from_texts(
         texts=chunks,
-        embedding=embedding_model,
+        embedding=get_embedding_model(),
         metadatas=metadatas,
         collection_name=f"video_{transcript.id}",
         persist_directory="chroma_db"
@@ -83,7 +85,7 @@ def rag(question, transcript_id):
     vectorstore = Chroma(
         collection_name=f"video_{transcript_id}",
         persist_directory="chroma_db",
-        embedding_function=embedding_model
+        embedding_function=get_embedding_model()
     )
 
     docs = vectorstore.similarity_search(

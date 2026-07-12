@@ -114,6 +114,7 @@ def home(request):
                         video_path=relative_video_path,
                         youtube_url=youtube_url
                     )
+                    from rag.embedding import create_embeddings
 
                     create_embeddings(transcript.id)
 
@@ -190,6 +191,7 @@ def home(request):
                         segments=transcript_segments,
                         video_path=relative_video_path
                     )
+                    from rag.embedding import create_embeddings
 
                     create_embeddings(transcript.id)
 
@@ -251,6 +253,7 @@ def home(request):
                         video_path=None,
                         youtube_url=None
                     )
+                    from rag.embedding import create_embeddings
 
                     create_embeddings(transcript.id)
 
