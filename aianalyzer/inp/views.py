@@ -3,7 +3,7 @@ from .forms import MediaUploadForm
 from pytubefix import YouTube
 from moviepy import VideoFileClip
 from .models import Transcript
-import whisper
+from faster_whisper import WhisperModel
 from rag.embedding import create_embeddings
 from django.contrib.auth.decorators import login_required
 import os
@@ -12,7 +12,24 @@ import uuid
 os.makedirs("downloads", exist_ok=True)
 os.makedirs("media/videos", exist_ok=True)
 
-model = whisper.load_model("base")
+# -------------------------------
+# Faster Whisper Model (Lazy Load)
+# -------------------------------
+
+model = None
+
+
+def get_model():
+    global model
+
+    if model is None:
+        model = WhisperModel(
+            "base",
+            device="cpu",
+            compute_type="int8"
+        )
+
+    return model
 
 
 def landing(request):
@@ -40,14 +57,18 @@ def home(request):
             # -------------------------
             # YouTube Video
             # -------------------------
+
             if youtube_url:
 
                 try:
+
                     yt = YouTube(youtube_url)
 
                     video_stream = yt.streams.get_highest_resolution()
 
-                    downloaded_path = video_stream.download(output_path="media/videos")
+                    downloaded_path = video_stream.download(
+                        output_path="media/videos"
+                    )
 
                     filename = os.path.basename(downloaded_path)
 
@@ -64,12 +85,32 @@ def home(request):
                     audio.close()
                     video.close()
 
-                    transcription = model.transcribe(audio_path)
+                    model = get_model()
+
+                    segments, info = model.transcribe(
+                        audio_path,
+                        beam_size=1
+                    )
+
+                    transcript_text = ""
+
+                    transcript_segments = []
+
+                    for segment in segments:
+
+                        transcript_text += segment.text + " "
+
+                        transcript_segments.append({
+                            "id": len(transcript_segments),
+                            "start": segment.start,
+                            "end": segment.end,
+                            "text": segment.text
+                        })
 
                     transcript = Transcript.objects.create(
                         title=yt.title,
-                        transcript=transcription["text"],
-                        segments=transcription["segments"],
+                        transcript=transcript_text,
+                        segments=transcript_segments,
                         video_path=relative_video_path,
                         youtube_url=youtube_url
                     )
@@ -85,7 +126,12 @@ def home(request):
                     )
 
                 except Exception as e:
+
                     result = f"Error: {str(e)}"
+            # -------------------------
+            # Uploaded Video
+            # -------------------------
+
             elif video_file:
 
                 try:
@@ -93,6 +139,7 @@ def home(request):
                     extension = os.path.splitext(video_file.name)[1]
 
                     filename = f"{uuid.uuid4()}{extension}"
+
                     relative_video_path = f"videos/{filename}"
 
                     absolute_video_path = os.path.join(
@@ -115,12 +162,32 @@ def home(request):
                     audio.close()
                     video.close()
 
-                    transcription = model.transcribe(audio_path)
+                    model = get_model()
+
+                    segments, info = model.transcribe(
+                        audio_path,
+                        beam_size=5
+                    )
+
+                    transcript_text = ""
+
+                    transcript_segments = []
+
+                    for segment in segments:
+
+                        transcript_text += segment.text + " "
+
+                        transcript_segments.append({
+                            "id": len(transcript_segments),
+                            "start": segment.start,
+                            "end": segment.end,
+                            "text": segment.text
+                        })
 
                     transcript = Transcript.objects.create(
                         title=video_file.name,
-                        transcript=transcription["text"],
-                        segments=transcription["segments"],
+                        transcript=transcript_text,
+                        segments=transcript_segments,
                         video_path=relative_video_path
                     )
 
@@ -135,11 +202,13 @@ def home(request):
                     )
 
                 except Exception as e:
+
                     result = f"Error: {str(e)}"
 
             # -------------------------
             # Uploaded Audio
             # -------------------------
+
             elif audio_file:
 
                 try:
@@ -153,12 +222,32 @@ def home(request):
                         for chunk in audio_file.chunks():
                             destination.write(chunk)
 
-                    transcription = model.transcribe(audio_path)
+                    model = get_model()
+
+                    segments, info = model.transcribe(
+                        audio_path,
+                        beam_size=5
+                    )
+
+                    transcript_text = ""
+
+                    transcript_segments = []
+
+                    for segment in segments:
+
+                        transcript_text += segment.text + " "
+
+                        transcript_segments.append({
+                            "id": len(transcript_segments),
+                            "start": segment.start,
+                            "end": segment.end,
+                            "text": segment.text
+                        })
 
                     transcript = Transcript.objects.create(
                         title=audio_file.name,
-                        transcript=transcription["text"],
-                        segments=transcription["segments"],
+                        transcript=transcript_text,
+                        segments=transcript_segments,
                         video_path=None,
                         youtube_url=None
                     )
@@ -174,9 +263,11 @@ def home(request):
                     )
 
                 except Exception as e:
+
                     result = f"Error: {str(e)}"
 
     else:
+
         form = MediaUploadForm()
 
     context = {
