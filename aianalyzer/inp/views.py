@@ -62,7 +62,7 @@ def home(request):
 
                 try:
 
-                    yt = YouTube(youtube_url)
+                    yt = YouTube(youtube_url,client='WEB')
 
                     video_stream = yt.streams.get_highest_resolution()
 
