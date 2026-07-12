@@ -127,6 +127,8 @@ def home(request):
                     )
 
                 except Exception as e:
+                    import traceback
+                    traceback.print_exc()
 
                     result = f"Error: {str(e)}"
             # -------------------------
@@ -204,7 +206,9 @@ def home(request):
                     )
 
                 except Exception as e:
-
+                    import traceback
+                    traceback.print_exc()
+                    
                     result = f"Error: {str(e)}"
 
             # -------------------------
@@ -266,6 +270,8 @@ def home(request):
                     )
 
                 except Exception as e:
+                    import traceback
+                    traceback.print_exc()
 
                     result = f"Error: {str(e)}"
 
