@@ -1,17 +1,19 @@
 from inp.models import Transcript
-from langchain_chroma import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
-
+import os
+from dotenv import load_dotenv
+from langchain_voyageai import VoyageAIEmbeddings
 embedding_model = None
-
+load_dotenv()
 
 def get_embedding_model():
+    
+    from langchain_chroma import Chroma
     global embedding_model
 
     if embedding_model is None:
-        embedding_model = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2",
-            encode_kwargs={"normalize_embeddings": True}
+        embedding_model = VoyageAIEmbeddings(
+            model="voyage-3-lite",
+            api_key=os.getenv("VOYAGE_API_KEY")
         )
 
     return embedding_model
@@ -68,7 +70,7 @@ def create_embeddings(transcript_id):
             "start": current_start,
             "end": current_end
         })
-
+    from langchain_chroma import Chroma
     vectorstore = Chroma.from_texts(
         texts=chunks,
         embedding=get_embedding_model(),
@@ -81,7 +83,8 @@ def create_embeddings(transcript_id):
 
 
 def rag(question, transcript_id):
-
+    
+    from langchain_chroma import Chroma
     vectorstore = Chroma(
         collection_name=f"video_{transcript_id}",
         persist_directory="chroma_db",
