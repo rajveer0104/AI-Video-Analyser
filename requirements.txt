@@ -9,17 +9,17 @@ langchain-community
 langchain-classic
 langchain-chroma
 langchain-google-genai
+langchain-huggingface
 
 chromadb
-langchain-huggingface
 sentence-transformers
+
+google-generativeai
+
+openai-whisper
 
 transformers
 torch
-
-faster-whisper
-
-google-generativeai
 
 numpy
 pandas
@@ -27,3 +27,6 @@ scikit-learn
 
 pytubefix
 moviepy
+
+gunicorn
+whitenoise

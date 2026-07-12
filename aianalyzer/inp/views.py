@@ -86,10 +86,6 @@ def home(request):
 
                 except Exception as e:
                     result = f"Error: {str(e)}"
-
-            # -------------------------
-            # Uploaded Video
-            # -------------------------
             elif video_file:
 
                 try:
