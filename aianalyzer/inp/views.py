@@ -130,7 +130,7 @@ def home(request):
                     import traceback
                     traceback.print_exc()
 
-                    result = f"Error: {str(e)}"
+                    raise
             # -------------------------
             # Uploaded Video
             # -------------------------
@@ -209,7 +209,7 @@ def home(request):
                     import traceback
                     traceback.print_exc()
                     
-                    result = f"Error: {str(e)}"
+                    raise
 
             # -------------------------
             # Uploaded Audio
@@ -273,7 +273,7 @@ def home(request):
                     import traceback
                     traceback.print_exc()
 
-                    result = f"Error: {str(e)}"
+                    raise
 
     else:
 
