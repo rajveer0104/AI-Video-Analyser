@@ -27,9 +27,9 @@ def summarize(request, transcript_id):
     if transcript.summary:
         return render(
             request,
-            "summary/index.html",
+            "summary/summary.html",
             {
-                "title": transcript.title,
+                "transcript":transcript,
                 "summary": transcript.summary
             }
         )

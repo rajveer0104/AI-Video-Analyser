@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from .forms import MediaUploadForm
-from pytubefix import YouTube
+from yt_dlp import YoutubeDL
 from moviepy import VideoFileClip
 from .models import Transcript
 from faster_whisper import WhisperModel
-from rag.embedding import create_embeddings
 from django.contrib.auth.decorators import login_required
 import os
+from rag.embedding import create_embeddings
 import uuid
 
 os.makedirs("downloads", exist_ok=True)
@@ -62,18 +62,33 @@ def home(request):
 
                 try:
 
-                    yt = YouTube(youtube_url,client='WEB')
-
-                    video_stream = yt.streams.get_highest_resolution()
-
-                    downloaded_path = video_stream.download(
-                        output_path="media/videos"
-                    )
-
-                    filename = os.path.basename(downloaded_path)
+                    filename = f"{uuid.uuid4()}.mp4"
 
                     relative_video_path = f"videos/{filename}"
 
+                    ydl_opts = {
+                        "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
+                        "outtmpl": os.path.join("media", "videos", filename),
+                        "merge_output_format": "mp4",
+                        "quiet": True,
+                        "no_warnings": True,
+                        "noplaylist": True,
+                    }
+
+                    with YoutubeDL(ydl_opts) as ydl:
+
+                        info = ydl.extract_info(
+                            youtube_url,
+                            download=True
+                        )
+
+                        title = info.get("title", "YouTube Video")
+                        downloaded_path = os.path.join(
+                            "media",
+                            "videos",
+                            filename
+                        )
+    
                     video = VideoFileClip(downloaded_path)
 
                     audio = video.audio
@@ -108,13 +123,12 @@ def home(request):
                         })
 
                     transcript = Transcript.objects.create(
-                        title=yt.title,
+                        title=title,
                         transcript=transcript_text,
                         segments=transcript_segments,
                         video_path=relative_video_path,
                         youtube_url=youtube_url
                     )
-                    from rag.embedding import create_embeddings
 
                     create_embeddings(transcript.id)
 
@@ -127,14 +141,12 @@ def home(request):
                     )
 
                 except Exception as e:
+                    print(e)
+
                     import traceback
                     traceback.print_exc()
 
                     raise
-            # -------------------------
-            # Uploaded Video
-            # -------------------------
-
             elif video_file:
 
                 try:
@@ -193,7 +205,6 @@ def home(request):
                         segments=transcript_segments,
                         video_path=relative_video_path
                     )
-                    from rag.embedding import create_embeddings
 
                     create_embeddings(transcript.id)
 
@@ -257,7 +268,6 @@ def home(request):
                         video_path=None,
                         youtube_url=None
                     )
-                    from rag.embedding import create_embeddings
 
                     create_embeddings(transcript.id)
 
