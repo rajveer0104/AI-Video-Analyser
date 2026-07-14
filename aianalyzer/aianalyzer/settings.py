@@ -21,7 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-6s$fwkupssw1)@0r_)og2qzv@ctv8b)(!-78fuof24z*qz(dbj'
-
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "landing"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
