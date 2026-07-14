@@ -64,7 +64,7 @@ def home(request):
         }
     )
 
-def process_youtube(form, youtube_url):
+def process_youtube(request,form, youtube_url):
 
     try:
 
@@ -113,7 +113,7 @@ def process_youtube(form, youtube_url):
         )
 
         return render(
-            None,
+            request,
             "inp/home.html",
             {
                 "form": form

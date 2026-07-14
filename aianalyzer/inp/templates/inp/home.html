@@ -1,75 +1,14 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AI Video Analyzer</title>
-
-    <link rel="stylesheet" href="{% static 'inp/css/home.css' %}">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
-</head>
-
+<html>
 <body>
 
-<div class="container">
+<h1>Test</h1>
 
-    <div class="card">
-
-        <h1>AI Video Analyzer</h1>
-
-        <p class="subtitle">
-            Upload a YouTube link, video or audio file and chat with your content using AI.
-        </p>
-
-        <form method="POST" enctype="multipart/form-data">
-
-            {% csrf_token %}
-
-            <div class="input-group">
-
-                <label>YouTube URL</label>
-
-                {{ form.youtube_url }}
-
-            </div>
-
-            <div class="divider">
-                OR
-            </div>
-
-            <div class="input-group">
-
-                <label>Upload Video</label>
-
-                {{ form.video_file }}
-
-            </div>
-
-            <div class="input-group">
-
-                <label>Upload Audio</label>
-
-                {{ form.audio_file }}
-
-            </div>
-
-            <button type="submit" class="btn">
-                Analyze
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
-<script src="{% static 'inp/js/home.js' %}"></script>
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="test">
+    <button type="submit">Submit</button>
+</form>
 
 </body>
 </html>
