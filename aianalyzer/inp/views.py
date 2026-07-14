@@ -48,7 +48,7 @@ def home(request):
         audio_file = form.cleaned_data.get("audio_file")
 
         if youtube_url:
-            return process_youtube(form, youtube_url)
+            return process_youtube(request,form, youtube_url)
 
         elif video_file:
             return process_video(video_file)
