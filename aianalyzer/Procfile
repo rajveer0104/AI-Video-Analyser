@@ -1,1 +1,1 @@
-web: gunicorn aianalyzer.wsgi
+web: gunicorn aianalyzer.wsgi:application
