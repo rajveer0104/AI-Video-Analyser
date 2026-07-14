@@ -10,9 +10,7 @@
     <link rel="stylesheet" href="{% static 'inp/css/home.css' %}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -21,10 +19,17 @@
 
     <div class="card">
 
+        <div class="waveform" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <p class="eyebrow">SIGNAL // INPUT</p>
         <h1>AI Video Analyzer</h1>
 
         <p class="subtitle">
-            Upload a YouTube link, video or audio file and chat with your content using AI.
+            Drop a YouTube link, video, or audio file and start a conversation with your content.
         </p>
 
         <form method="POST" enctype="multipart/form-data">
@@ -32,35 +37,34 @@
             {% csrf_token %}
 
             <div class="input-group">
-
                 <label>YouTube URL</label>
-
                 {{ form.youtube_url }}
-
             </div>
 
-            <div class="divider">
-                OR
-            </div>
+            <div class="divider"><span>OR</span></div>
 
             <div class="input-group">
-
                 <label>Upload Video</label>
-
-                {{ form.video_file }}
-
+                <div class="dropzone" data-target="id_video_file">
+                    <svg class="dz-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4m0 0L7 9m5-5l5 5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="dz-text">Drag a video here or click to browse</span>
+                    <span class="dz-filename"></span>
+                    {{ form.video_file }}
+                </div>
             </div>
 
             <div class="input-group">
-
                 <label>Upload Audio</label>
-
-                {{ form.audio_file }}
-
+                <div class="dropzone" data-target="id_audio_file">
+                    <svg class="dz-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4m0 0L7 9m5-5l5 5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="dz-text">Drag audio here or click to browse</span>
+                    <span class="dz-filename"></span>
+                    {{ form.audio_file }}
+                </div>
             </div>
 
             <button type="submit" class="btn">
-                Analyze
+                <span>Analyze</span>
             </button>
 
         </form>
