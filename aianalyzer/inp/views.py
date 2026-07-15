@@ -211,7 +211,8 @@ def process_audio(audio_file):
 
         segments, info = model.transcribe(
             audio_path,
-            beam_size=5
+            beam_size=5,
+            language="en"
         )
 
         transcript_text = ""

@@ -3,11 +3,6 @@ import requests
 
 
 def extract_video_id(url):
-    """
-    Supports:
-    https://youtu.be/xxxxx
-    https://www.youtube.com/watch?v=xxxxx
-    """
 
     if "youtu.be/" in url:
         return url.split("youtu.be/")[1].split("?")[0]
