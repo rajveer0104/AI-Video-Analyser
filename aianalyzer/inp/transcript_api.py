@@ -22,9 +22,13 @@ def get_transcript(youtube_url):
     }
 
     response = requests.get(
-        f"https://api.supadata.ai/v1/youtube/transcript?videoId={video_id}",
+        "https://api.supadata.ai/v1/youtube/transcript",
         headers=headers,
-        timeout=60
+        params={
+            "videoId": video_id,
+            "lang": "en",
+        },
+        timeout=60,
     )
 
     response.raise_for_status()

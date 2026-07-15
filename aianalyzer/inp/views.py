@@ -73,6 +73,8 @@ def process_youtube(request,form, youtube_url):
         print(data.keys())      # TEMPORARY
 
         title = data.get("title", "YouTube Video")
+        print("Transcript language:", data["lang"])
+        print("Available languages:", data["availableLangs"])
 
         transcript_text = ""
 
