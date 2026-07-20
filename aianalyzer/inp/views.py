@@ -36,7 +36,6 @@ def landing(request):
     return render(request, "inp/land.html")
 
 
-@login_required
 def home(request):
 
     form = MediaUploadForm(request.POST or None, request.FILES or None)
